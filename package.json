@@ -10,15 +10,25 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "start": "node dist/index.js",
-    "dev": "tsc-watch --onSuccess \"node dist/index.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\"" ,
+    "studio": "drizzle-kit studio --config drizzle.config.mjs" ,
+    "db:generate": "drizzle-kit generate --config drizzle.config.mjs",
+    "db:migrate": "drizzle-kit migrate --config drizzle.config.mjs"
+
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.2",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^1.0.0-rc.5",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "dotenv": "^18.0.8",
+    "drizzle-orm": "^1.0.0-rc.5",
     "express": "^5.2.1",
+    "pg": "^8.23.1",
     "tsc-watch": "^7.2.1"
   }
 }
