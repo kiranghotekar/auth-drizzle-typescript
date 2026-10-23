@@ -5,7 +5,7 @@ import {createApplication} from "./app/index.js"
 async function main(){
     try{
         const server = createServer(createApplication())
-        const PORT: number = 8080 
+        const PORT: number = 3001
 
         server.listen(PORT , ()=>{
             console.log(`Server is running on PORT ${PORT}`)
