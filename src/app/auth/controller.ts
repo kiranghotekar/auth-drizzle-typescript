@@ -4,6 +4,8 @@ import { createHmac, randomBytes } from 'node:crypto'
 import { usersTable } from '../../db/schema';
 import { db } from '../../db';
 import { eq } from 'drizzle-orm'
+import { createUserToken } from './utils/token';
+import type { userTokenPayload } from './utils/token';
 
 class authenticationController {
 
@@ -43,11 +45,26 @@ class authenticationController {
         const salt = userSelectbyemail.salt!
         const hash = createHmac('sha256' , salt).update(password).digest('hex')
         if(userSelectbyemail.password !== hash) return res.status(400).json({message : `email or password is incorrect`})
-    
-            // todo : token banao
-            return res.json({message : 'sign-in succesful ' , data :{token : 1}})
-    
+
+        const token = createUserToken({id: userSelectbyemail.id})
+
+        return res.json({message : 'sign in success ' , data : {token}})
         }
+
+    
+    public async handleMe(req : Request , res : Response){
+        // @ts-ignore
+        const {id} = req.user! as userTokenPayload
+
+        const [userResult] = await db.select().from(usersTable).where(eq(usersTable.id , id))
+        
+        return res.json({
+            name : userResult?.name,
+            age : userResult?.age,
+            email : userResult?.email,
+
+        })
+    }
 }
 
 export default authenticationController; 
